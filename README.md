@@ -6,38 +6,34 @@
 ![Contributors](https://img.shields.io/github/contributors/cadencejames/NetworkModules)
 [![Network Tool](https://img.shields.io/badge/network-tool-green)](https://github.com/cadencejames/NetworkModules)
 
-This Python script connects to Cisco devices via SSH, retrieves detailed information about network interfaces, and outputs this data for further analysis. The script supports extracting interface status, IP configuration, description, duplex, speed, and switchport settings.
+This Python module provides various functions for managing and configuring Cisco devices through SSH. The module is designed to be extendable and can easily be imported into other scripts for specific network management tasks. Current functionalities include retrieving interface details, but additional features can be added in the future to cover other network configuration tasks.
 
 ---
-
 ## **Features**
-- Connects to Cisco devices using SSH with user-provided credentials.
-- Retrieves summary interface information (`show ip interface brief`).
-- Fetches detailed interface configurations (`show run interface <interface>`).
-- Displays detailed information, including interface status, IP, description, duplex, speed, and switchport configurations.
-- Easily configurable for different IPs, interfaces, and device types.
+- **Modular Design**: Designed as a network management module, allowing you to add new functions as needed.
+- **SSH Connectivity**: Securely connects to Cisco devices via SSH using the `netmiko` library.
+- **Retrieving Interface Information**: Fetches basic and detailed interface configurations.
+- **Future Extensibility**: New network-related functions can be added easily, such as retrieving configurations, setting interfaces, managing VLANs, and more.
 
 ---
-
-## **Workflow**
-1. **Establish SSH Connection**  
-   - The script connects securely to the Cisco device using SSH, based on provided credentials.
+## **Current Functions**
+1. **ShowInterfaces**  
+   - Retrieves basic interface details using the `show ip interface brief` command.
+   - Parses interface status, IP address, method, protocol, and description.
    
-2. **Retrieve Interface Summary**  
-   - The script executes the command `show ip interface brief` to gather basic interface details, such as IP addresses, interface status, and protocol status.
-   
-3. **Retrieve Interface Details**  
-   - The script fetches detailed interface configuration using `show run interface <interface>`. It parses and extracts:
-     - Interface description.
-     - Duplex settings.
-     - Speed settings.
-     - Switchport configurations, such as mode, VLANs, and trunk settings.
-   
-4. **Display Output**  
-   - The script prints the gathered interface details for each specified interface.
+2. **ShowInterfaceDetails**  
+   - Retrieves detailed configuration for a specific interface using `show run interface <interface>`.
+   - Collects settings such as description, duplex, speed, and switchport configuration.
 
 ---
+## **Future Functionality**
+This script is intended to grow into a full network management toolkit. Future functionalities might include:
+- **ConfigureInterfaces**: To configure interface settings (e.g., enable/disable, speed, duplex).
+- **ManageVLANs**: Retrieve and configure VLAN information.
+- **SaveConfigurations**: Save or backup Cisco device configurations.
+- **RebootDevices**: Reboot Cisco devices remotely.
 
+---
 ## **Requirements**
 - **Python Version:** Python 3.6+
 - **Libraries:**  
@@ -48,34 +44,43 @@ This Python script connects to Cisco devices via SSH, retrieves detailed informa
   - None (credentials and IP addresses are provided at runtime).
   
 - **Output:**  
-  - The script will print interface details to the console.
+  - The script will print interface details to the console. Future updates may add the ability to output to different types of files.
 
 ---
-
-## **Usage**
+## **Usage as a Module**
 1. Clone the repository and navigate to the script directory.
 2. Install the required dependencies if not already installed:
    ```bash
    pip install netmiko
-    ```
-3. Run the script:
-   ```bash
-   python NetworkModules.py
    ```
-4. Enter the SSH username and password when prompted.
-5. The script will retrieve and display the interface details for the specific device and interface (e.g. `FastEthernet0/1`).
+3. Import the module into your own scripts. For example:
+   ```
+   from NetworkModules import ShowInterfaces, ShowInterfaceDetails
+   device = {
+     'device_type': 'cisco_ios',
+     'host': '192.168.1.1',
+     'username': 'your_username',
+     'password': 'your_password'
+   }
+   ```
 
-## **Example Output**
-After running the script for a specific interface (e.g. `FastEthernet0/1`), you might see output like this:
-```yaml
-ip: 192.168.1.1
-interface: FastEthernet0/1
-description: Uplink to Core Switch
-duplex: full
-speed: 1000
-switchport: Mode: access, Access VLAN: 10
-```
-## **Error Handling**
+   # Fetch interfaces information
+   ```
+   interfaces = ShowInterfaces("192.168.1.1", device)
+   for interface in interfaces:
+       print(interface)
+	```
+   # Fetch detailed information for a specific interface
+   ```
+   interface_details = ShowInterfaceDetails("192.168.1.1", device, "FastEthernet0/1")
+   for item in interface_details:
+       for subitem in item:
+           print(f"{subitem}: {item[subitem]}")
+	```
+
+4. You can also extend the module by adding new functions, such as configuring interfaces, managing VLANs, or saving configurations. Simply define a new function in the `NetworkModules.py` script and call it from your main script.
+
+---## **Error Handling**
 - If there are any issues with the SSH connection or fetching interface details, the script will print the error message and raise an exception.
 - You can catch errors for troublshooting by wrapping the function calls in try-except blocks.
 ## **License**
