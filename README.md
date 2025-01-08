@@ -1,10 +1,10 @@
 # **Cisco Network Interface Management Script**
 ![Python Version](https://img.shields.io/badge/python-3.6%2B-blue)
 ![Netmiko](https://img.shields.io/badge/library-netmiko-blue)
-![License](https://img.shields.io/github/license/yourusername/show-interfaces)
-![Last Commit](https://img.shields.io/github/last-commit/yourusername/show-interfaces)
-![Contributors](https://img.shields.io/github/contributors/yourusername/show-interfaces)
-[![Network Tool](https://img.shields.io/badge/network-tool-green)](https://github.com/yourusername/show-interfaces)
+![License](https://img.shields.io/github/license/cadencejames/NetworkModules)
+![Last Commit](https://img.shields.io/github/last-commit/cadencejames/NetworkModules)
+![Contributors](https://img.shields.io/github/contributors/cadencejames/NetworkModules)
+[![Network Tool](https://img.shields.io/badge/network-tool-green)](https://github.com/cadencejames/NetworkModules)
 
 This Python script connects to Cisco devices via SSH, retrieves detailed information about network interfaces, and outputs this data for further analysis. The script supports extracting interface status, IP configuration, description, duplex, speed, and switchport settings.
 
