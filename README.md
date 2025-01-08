@@ -82,7 +82,7 @@ This script is intended to grow into a full network management toolkit. Future f
 
 ---
 ## **Error Handling**
-- If there are any issues with the SSH connection or fetching interface details, the script will print the error message and raise an exception.
+- If there are any issues with the SSH connection or any of the modules, the script will print the error message and raise an exception.
 - You can catch errors for troublshooting by wrapping the function calls in try-except blocks.
 ## **License**
 This script is provided under the MIT License. See `License` for more details.
